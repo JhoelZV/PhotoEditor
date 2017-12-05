@@ -1,7 +1,10 @@
 package com.example.nterrill.photoeditor;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openGallery(){
-        Intent imageGallerIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(imageGallerIntent, REQUEST_IMAGE_GALLERY);
+        Intent imageGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(imageGalleryIntent, REQUEST_IMAGE_GALLERY);
     }
 
     @Override
@@ -62,7 +65,21 @@ public class MainActivity extends AppCompatActivity {
             Bitmap takenPicture = (Bitmap) pictureData.get("data");
             mLogo.setImageBitmap(takenPicture);
         } else if (resultCode == 2){
-            
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String filePath = cursor.getString(columnIndex);
+
+            cursor.close();
+
+            Bitmap userSlectedImage = BitmapFactory.decodeFile(filePath);
+            mLogo.setImageBitmap(userSlectedImage);
+
+
         }
     }
 }
