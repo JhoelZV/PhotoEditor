@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView mLogo;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_IMAGE_GALLERY = 2;
 
 
     @Override
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         mGalleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                openGallery();
             }
         });
     }
@@ -49,12 +50,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void openGallery(){
+        Intent imageGallerIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(imageGallerIntent, REQUEST_IMAGE_GALLERY);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(requestCode == REQUEST_IMAGE_CAPTURE && requestCode == RESULT_CANCELED){
             Bundle pictureData = data.getExtras();
             Bitmap takenPicture = (Bitmap) pictureData.get("data");
             mLogo.setImageBitmap(takenPicture);
+        } else if (resultCode == 2){
+            
         }
     }
 }
