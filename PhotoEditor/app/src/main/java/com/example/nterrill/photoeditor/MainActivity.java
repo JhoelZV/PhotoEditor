@@ -1,5 +1,7 @@
 package com.example.nterrill.photoeditor;
 
+import android.content.Intent;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +11,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button mCameraButton;
     Button mGalleryButton;
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
 
     @Override
@@ -22,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         mCameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                takePicture();
             }
         });
 
@@ -33,4 +37,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void takePicture(){
+        Intent CameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(CameraIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(CameraIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+
 }
