@@ -97,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        //Filters
         b_filter.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
