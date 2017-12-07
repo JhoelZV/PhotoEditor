@@ -25,7 +25,7 @@ import java.io.FileOutputStream;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_THUMBNAIL_IMAGE = 2;
-    private static final int  MY_PERMISSION_REQUEST = 1;
+    private static final int MY_PERMISSION_REQUEST = 1;
     private static final int RESULT_LOAD_IMAGE = 0;
 
     Button b_filter, b_filter2, b_filter3, b_filter4;
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST);
             } else {
@@ -68,17 +68,16 @@ public class MainActivity extends AppCompatActivity {
         b_share.setEnabled(false);
 
 
-        b_camera.setOnClickListener(new View.OnClickListener(){
+        b_camera.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent,REQUEST_THUMBNAIL_IMAGE);
+                startActivityForResult(intent, REQUEST_THUMBNAIL_IMAGE);
             }
         });
 
 
-
-        b_load.setOnClickListener(new View.OnClickListener(){
+        b_load.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        b_save.setOnClickListener(new View.OnClickListener(){
+        b_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 View content = findViewById(R.id.lay);
@@ -99,28 +98,28 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Filters
-        b_filter.setOnClickListener(new View.OnClickListener(){
+        b_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 imageFilter.setImageResource(R.drawable.spring_filter);
                 b_save.setEnabled(true);
             }
         });
-        b_filter2.setOnClickListener(new View.OnClickListener(){
+        b_filter2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 imageFilter.setImageResource(R.drawable.summer_filter);
                 b_save.setEnabled(true);
             }
         });
-        b_filter3.setOnClickListener(new View.OnClickListener(){
+        b_filter3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 imageFilter.setImageResource(R.drawable.fall_filter);
                 b_save.setEnabled(true);
             }
         });
-        b_filter4.setOnClickListener(new View.OnClickListener(){
+        b_filter4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 imageFilter.setImageResource(R.drawable.winter_filter);
@@ -128,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        b_share.setOnClickListener(new View.OnClickListener(){
+        b_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 shareImage(currentImage);
@@ -136,23 +135,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private static Bitmap getScreenShot (View view){
+    private static Bitmap getScreenShot(View view) {
         view.setDrawingCacheEnabled(true);
         Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
         view.setDrawingCacheEnabled(false);
         return bitmap;
     }
 
-    private void store(Bitmap bm, String fileName){
+    private void store(Bitmap bm, String fileName) {
         String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/FILTEREDIMAGES";
         File dir = new File(dirPath);
-        if(!dir.exists()){
+        if (!dir.exists()) {
             dir.mkdirs();
         }
-        File file = new File(dirPath,fileName);
-        try{
+        File file = new File(dirPath, fileName);
+        try {
             FileOutputStream fos = new FileOutputStream(file);
-            bm.compress(Bitmap.CompressFormat.PNG,100,fos);
+            bm.compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.flush();
             fos.close();
             Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
@@ -161,18 +160,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void shareImage(String fileName){
-        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/FILTEREDIMAGES";
+    private void shareImage(String fileName) {
+        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/FILTEREDIMAGES";
         Uri uri = Uri.fromFile(new File(dirPath, fileName));
-        Intent intent  = new Intent();
+        Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("image/*");
 
-        intent.putExtra(Intent.EXTRA_SUBJECT,"");
-        intent.putExtra(Intent.EXTRA_TEXT,"");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "");
+        intent.putExtra(Intent.EXTRA_TEXT, "");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
 
-        try{
+        try {
             startActivity(Intent.createChooser(intent, "Share via"));
         } catch (Exception e) {
             Toast.makeText(this, "No sharing app found!", Toast.LENGTH_SHORT).show();
@@ -182,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data){
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
@@ -196,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
             b_filter3.setEnabled(true);
             b_filter4.setEnabled(true);
         }
-        
+
 //Loading Picture from camera
         if (requestCode == REQUEST_THUMBNAIL_IMAGE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
@@ -213,10 +212,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
-            case MY_PERMISSION_REQUEST:{
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+        switch (requestCode) {
+            case MY_PERMISSION_REQUEST: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                         //Nothing
                     }
                 } else {
