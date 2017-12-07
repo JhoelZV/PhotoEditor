@@ -196,7 +196,8 @@ public class MainActivity extends AppCompatActivity {
             b_filter3.setEnabled(true);
             b_filter4.setEnabled(true);
         }
-
+        
+//Loading Picture from camera
         if (requestCode == REQUEST_THUMBNAIL_IMAGE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
