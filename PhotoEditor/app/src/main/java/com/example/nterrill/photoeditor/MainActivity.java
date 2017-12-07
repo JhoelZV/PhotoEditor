@@ -96,9 +96,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+<<<<<<< HEAD
 
         //Filters
         b_filter.setOnClickListener(new View.OnClickListener() {
+=======
+        b_filter.setOnClickListener(new View.OnClickListener(){
+>>>>>>> parent of e869e74... Filters
             @Override
             public void onClick(View view) {
                 imageFilter.setImageResource(R.drawable.spring_filter);
