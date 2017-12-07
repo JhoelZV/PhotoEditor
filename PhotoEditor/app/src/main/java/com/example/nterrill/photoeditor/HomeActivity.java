@@ -12,6 +12,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
 
+//Implementation of the Splash Screen
         Thread myThread = new Thread(){
             @Override
             public void run(){
